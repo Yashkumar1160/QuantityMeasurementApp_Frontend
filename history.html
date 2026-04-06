@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - Quantity Measurement</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <span class="navbar-brand">⚖ Quantity Measurement</span>
+    <div class="navbar-right">
+        <span class="navbar-user" id="navbar-user"></span>
+        <button class="btn-logout" id="logout-btn">Logout</button>
+    </div>
+</nav>
+
+<div class="dash-layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-label">Overview</div>
+        <button class="sidebar-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">Operations</div>
+        <button class="sidebar-btn" onclick="window.location.href='index.html'">🔍 Compare</button>
+        <button class="sidebar-btn" onclick="window.location.href='index.html'">🔄 Convert</button>
+        <button class="sidebar-btn" onclick="window.location.href='index.html'">➕ Add</button>
+        <button class="sidebar-btn" onclick="window.location.href='index.html'">➖ Subtract</button>
+        <button class="sidebar-btn" onclick="window.location.href='index.html'">➗ Divide</button>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">Records</div>
+        <button class="sidebar-btn active">📋 History</button>
+    </aside>
+
+    <main class="main-content">
+        <h2 class="section-title">Operation History</h2>
+        <p class="section-sub">View and filter your past operations</p>
+
+        <div class="filter-bar">
+            <div class="form-group">
+                <label>Filter By</label>
+                <select id="filter-by">
+                    <option value="operation">Operation Type</option>
+                    <option value="type">Measurement Type</option>
+                    <option value="errored">Errors Only</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Value</label>
+                <select id="filter-val">
+                    <option>Compare</option>
+                    <option>Convert</option>
+                    <option>Add</option>
+                    <option>Subtract</option>
+                    <option>Divide</option>
+                </select>
+            </div>
+            <button class="btn-outline" id="load-btn">Load</button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Operation</th>
+                        <th>Type</th>
+                        <th>Input 1</th>
+                        <th>Input 2</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id="hist-tbody">
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-icon">📋</div>
+                                <p>Click Load to fetch records</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/history.js"></script>
+</body>
+</html>

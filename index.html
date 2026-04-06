@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quantity Measurement</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <span class="navbar-brand">⚖ Quantity Measurement</span>
+    <div class="navbar-right">
+        <span class="navbar-user" id="navbar-user"></span>
+        <button class="btn-logout" id="logout-btn">Logout</button>
+    </div>
+</nav>
+
+<div class="dash-layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-label">Overview</div>
+        <button class="sidebar-btn active" data-section="home">🏠 Home</button>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">Operations</div>
+        <button class="sidebar-btn" data-section="compare">🔍 Compare</button>
+        <button class="sidebar-btn" data-section="convert">🔄 Convert</button>
+        <button class="sidebar-btn" data-section="add">➕ Add</button>
+        <button class="sidebar-btn" data-section="subtract">➖ Subtract</button>
+        <button class="sidebar-btn" data-section="divide">➗ Divide</button>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">Records</div>
+        <button class="sidebar-btn" onclick="window.location.href='history.html'">📋 History</button>
+    </aside>
+
+    <main class="main-content">
+
+        <!-- HOME -->
+        <section class="section-panel active" id="section-home">
+            <h2 class="section-title">Welcome back 👋</h2>
+            <p class="section-sub">Your operation totals</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total</div>
+                    <div class="stat-value" id="stat-total">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Compares</div>
+                    <div class="stat-value" id="stat-compare">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Converts</div>
+                    <div class="stat-value" id="stat-convert">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adds</div>
+                    <div class="stat-value" id="stat-add">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Subtracts</div>
+                    <div class="stat-value" id="stat-subtract">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Divides</div>
+                    <div class="stat-value" id="stat-divide">—</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPARE -->
+        <section class="section-panel" id="section-compare">
+            <h2 class="section-title">Compare Two Quantities</h2>
+            <p class="section-sub">Check if two quantities are equal</p>
+
+            <div class="op-card">
+                <h4 class="op-card-title">Measurement Type</h4>
+                <div class="form-group" style="max-width: 220px;">
+                    <label>Select Type</label>
+                    <select id="cmp-type">
+                        <option value="">-- Select --</option>
+                        <option>Length</option>
+                        <option>Weight</option>
+                        <option>Volume</option>
+                        <option>Temperature</option>
+                    </select>
+                    <span class="field-error" id="cmp-type-err"></span>
+                </div>
+            </div>
+
+            <div class="op-card">
+                <h4 class="op-card-title">First Quantity</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="number" id="cmp-val1" placeholder="e.g. 1">
+                        <span class="field-error" id="cmp-val1-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit</label>
+                        <select id="cmp-unit1"><option value="">-- Select type first --</option></select>
+                        <span class="field-error" id="cmp-unit1-err"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="op-card">
+                <h4 class="op-card-title">Second Quantity</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="number" id="cmp-val2" placeholder="e.g. 12">
+                        <span class="field-error" id="cmp-val2-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit</label>
+                        <select id="cmp-unit2"><option value="">-- Select type first --</option></select>
+                        <span class="field-error" id="cmp-unit2-err"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-action" id="cmp-btn">Compare</button>
+            <div class="result-box" id="cmp-result">
+                <div class="result-label">Result</div>
+                <div class="result-value"></div>
+            </div>
+        </section>
+
+        <!-- CONVERT -->
+        <section class="section-panel" id="section-convert">
+            <h2 class="section-title">Convert a Quantity</h2>
+            <p class="section-sub">Convert a value from one unit to another</p>
+
+            <div class="op-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="number" id="conv-val" placeholder="e.g. 100">
+                        <span class="field-error" id="conv-val-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Measurement Type</label>
+                        <select id="conv-type">
+                            <option value="">-- Select --</option>
+                            <option>Length</option>
+                            <option>Weight</option>
+                            <option>Volume</option>
+                            <option>Temperature</option>
+                        </select>
+                        <span class="field-error" id="conv-type-err"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>From Unit</label>
+                        <select id="conv-from"><option value="">-- Select type first --</option></select>
+                        <span class="field-error" id="conv-from-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>To Unit</label>
+                        <select id="conv-to"><option value="">-- Select type first --</option></select>
+                        <span class="field-error" id="conv-to-err"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-action" id="conv-btn">Convert</button>
+            <div class="result-box" id="conv-result">
+                <div class="result-label">Converted Value</div>
+                <div class="result-value"></div>
+            </div>
+        </section>
+
+        <!-- ADD -->
+        <section class="section-panel" id="section-add">
+            <h2 class="section-title">Add Two Quantities</h2>
+            <p class="section-sub">Add two quantities and get the result in your chosen unit</p>
+
+            <div class="op-card">
+                <div class="form-group" style="max-width: 220px;">
+                    <label>Measurement Type</label>
+                    <select id="add-type">
+                        <option value="">-- Select --</option>
+                        <option>Length</option>
+                        <option>Weight</option>
+                        <option>Volume</option>
+                        <option>Temperature</option>
+                    </select>
+                    <span class="field-error" id="add-type-err"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value 1</label>
+                        <input type="number" id="add-val1" placeholder="e.g. 2">
+                        <span class="field-error" id="add-val1-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit 1</label>
+                        <select id="add-unit1"><option value="">-- Select type --</option></select>
+                        <span class="field-error" id="add-unit1-err"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value 2</label>
+                        <input type="number" id="add-val2" placeholder="e.g. 30">
+                        <span class="field-error" id="add-val2-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit 2</label>
+                        <select id="add-unit2"><option value="">-- Select type --</option></select>
+                        <span class="field-error" id="add-unit2-err"></span>
+                    </div>
+                </div>
+                <div class="form-group" style="max-width: 220px; margin-top: 6px;">
+                    <label>Result Unit</label>
+                    <select id="add-target"><option value="">-- Select type --</option></select>
+                    <span class="field-error" id="add-target-err"></span>
+                </div>
+            </div>
+
+            <button class="btn-action" id="add-btn">Add</button>
+            <div class="result-box" id="add-result">
+                <div class="result-label">Sum</div>
+                <div class="result-value"></div>
+            </div>
+        </section>
+
+        <!-- SUBTRACT -->
+        <section class="section-panel" id="section-subtract">
+            <h2 class="section-title">Subtract Two Quantities</h2>
+            <p class="section-sub">Subtract the second from the first</p>
+
+            <div class="op-card">
+                <div class="form-group" style="max-width: 220px;">
+                    <label>Measurement Type</label>
+                    <select id="sub-type">
+                        <option value="">-- Select --</option>
+                        <option>Length</option>
+                        <option>Weight</option>
+                        <option>Volume</option>
+                        <option>Temperature</option>
+                    </select>
+                    <span class="field-error" id="sub-type-err"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value 1</label>
+                        <input type="number" id="sub-val1" placeholder="e.g. 10">
+                        <span class="field-error" id="sub-val1-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit 1</label>
+                        <select id="sub-unit1"><option value="">-- Select type --</option></select>
+                        <span class="field-error" id="sub-unit1-err"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value 2</label>
+                        <input type="number" id="sub-val2" placeholder="e.g. 3">
+                        <span class="field-error" id="sub-val2-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit 2</label>
+                        <select id="sub-unit2"><option value="">-- Select type --</option></select>
+                        <span class="field-error" id="sub-unit2-err"></span>
+                    </div>
+                </div>
+                <div class="form-group" style="max-width: 220px; margin-top: 6px;">
+                    <label>Result Unit</label>
+                    <select id="sub-target"><option value="">-- Select type --</option></select>
+                    <span class="field-error" id="sub-target-err"></span>
+                </div>
+            </div>
+
+            <button class="btn-action" id="sub-btn">Subtract</button>
+            <div class="result-box" id="sub-result">
+                <div class="result-label">Difference</div>
+                <div class="result-value"></div>
+            </div>
+        </section>
+
+        <!-- DIVIDE -->
+        <section class="section-panel" id="section-divide">
+            <h2 class="section-title">Divide Two Quantities</h2>
+            <p class="section-sub">Returns a dimensionless ratio</p>
+
+            <div class="op-card">
+                <div class="form-group" style="max-width: 220px;">
+                    <label>Measurement Type</label>
+                    <select id="div-type">
+                        <option value="">-- Select --</option>
+                        <option>Length</option>
+                        <option>Weight</option>
+                        <option>Volume</option>
+                        <option>Temperature</option>
+                    </select>
+                    <span class="field-error" id="div-type-err"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value 1 (Dividend)</label>
+                        <input type="number" id="div-val1" placeholder="e.g. 12">
+                        <span class="field-error" id="div-val1-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit 1</label>
+                        <select id="div-unit1"><option value="">-- Select type --</option></select>
+                        <span class="field-error" id="div-unit1-err"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Value 2 (Divisor)</label>
+                        <input type="number" id="div-val2" placeholder="e.g. 3">
+                        <span class="field-error" id="div-val2-err"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit 2</label>
+                        <select id="div-unit2"><option value="">-- Select type --</option></select>
+                        <span class="field-error" id="div-unit2-err"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-action" id="div-btn">Divide</button>
+            <div class="result-box" id="div-result">
+                <div class="result-label">Ratio</div>
+                <div class="result-value"></div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
