@@ -1,0 +1,10 @@
+/* dashboard specific styles */
+
+.op-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gray-200);
+}

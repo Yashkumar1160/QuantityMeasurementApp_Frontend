@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <span class="navbar-brand">⚖ Quantity Measurement</span>
+  <div class="navbar-right">
+    <span class="navbar-user">Hi, {{ userName }}</span>
+
+    <!-- Show role badge -->
+    <span class="role-badge" [class.admin-badge]="isAdmin">{{ userRole }}</span>
+
+    <!-- Show Admin Panel button only for admins -->
+    <button *ngIf="isAdmin" class="btn-admin" (click)="goAdmin()">Admin Panel</button>
+
+    <button class="btn-logout" (click)="logout()">Logout</button>
+  </div>
+</nav>

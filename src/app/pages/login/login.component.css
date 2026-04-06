@@ -1,0 +1,90 @@
+/* auth page specific styles — shared globals are in styles.css */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-900);
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.auth-brand {
+  background: var(--primary);
+  color: var(--white);
+  padding: 28px 32px 22px;
+  text-align: center;
+}
+.auth-brand h1 { font-size: 20px; font-weight: 600; }
+.auth-brand p  { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+
+.auth-tabs {
+  display: flex;
+  background: var(--gray-100);
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-600);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.2s;
+}
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  background: var(--white);
+}
+
+.tab-panel        { display: none; padding: 26px 32px 32px; }
+.tab-panel.active { display: block; }
+
+.pass-wrap         { position: relative; }
+.pass-wrap input   { padding-right: 42px; }
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: var(--gray-500);
+  line-height: 1;
+}
+.eye-btn:hover { color: var(--gray-700); }
+
+.alert {
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.alert-error {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error-border);
+}
+.alert-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}

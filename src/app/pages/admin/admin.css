@@ -1,0 +1,40 @@
+.admin-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.admin-header {
+  margin-bottom: 24px;
+}
+.admin-header h1 { font-size: 24px; color: #1a1a2e; }
+.admin-header p  { color: #6b7280; font-size: 14px; margin-top: 4px; }
+
+.tab-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+.tab-btn {
+  background: #f3f4f6;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+.tab-btn.active { background: #4f46e5; color: #fff; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+th { background: #f9fafb; padding: 12px 16px; text-align: left; font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase; }
+td { padding: 12px 16px; font-size: 13px; border-top: 1px solid #f3f4f6; }
+
+.role-chip { background: #e5e7eb; color: #374151; padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: bold; }
+.admin-chip { background: #4f46e5; color: #fff; }
+.already-admin { color: #10b981; font-size: 13px; font-weight: bold; }
+
+.badge { padding: 3px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #d1fae5; color: #065f46; }
+.badge.err { background: #fee2e2; color: #991b1b; }
+
+.btn-promote { background: #4f46e5; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+.btn-promote:hover { background: #4338ca; }
+
+.loading   { padding: 40px; text-align: center; color: #6b7280; }
+.error-msg { color: #ef4444; padding: 20px; text-align: center; }

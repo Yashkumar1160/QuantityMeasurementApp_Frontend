@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+
+<div class="admin-layout">
+
+  <div class="admin-header">
+    <h1>🛡️ Admin Panel</h1>
+    <p>Manage users and view all operation records</p>
+  </div>
+
+  <!-- Tab buttons -->
+  <div class="tab-bar">
+    <button class="tab-btn" [class.active]="activeTab === 'users'"   (click)="showTab('users')"  >👥 Users</button>
+    <button class="tab-btn" [class.active]="activeTab === 'records'" (click)="showTab('records')">📋 All Records</button>
+  </div>
+
+  <!-- USERS TAB -->
+  <div *ngIf="activeTab === 'users'">
+    <div *ngIf="loadingUsers" class="loading">Loading users...</div>
+    <div *ngIf="errorUsers"   class="error-msg">{{ errorUsers }}</div>
+
+    <table *ngIf="!loadingUsers && users.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Joined</th>
+          <th>Last Login</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+          <td>{{ u.id }}</td>
+          <td>{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <span class="role-chip" [class.admin-chip]="u.role === 'Admin'">{{ u.role }}</span>
+          </td>
+          <td>{{ u.createdAt | date:'dd MMM yyyy' }}</td>
+          <td>{{ u.lastLoginAt | date:'dd MMM, HH:mm' }}</td>
+          <td>
+            <button *ngIf="u.role !== 'Admin'" class="btn-promote" (click)="promoteUser(u.id, u.name)">
+              Make Admin
+            </button>
+            <span *ngIf="u.role === 'Admin'" class="already-admin">✓ Admin</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RECORDS TAB -->
+  <div *ngIf="activeTab === 'records'">
+    <div *ngIf="loadingRecords" class="loading">Loading records...</div>
+    <div *ngIf="errorRecords"   class="error-msg">{{ errorRecords }}</div>
+
+    <table *ngIf="!loadingRecords && records.length > 0">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Operation</th>
+          <th>Type</th>
+          <th>Input 1</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of records">
+          <td>{{ r.createdAt | date:'dd MMM, HH:mm' }}</td>
+          <td>
+            <span class="badge" [class.err]="r.isError">{{ r.isError ? 'Error' : 'OK' }}</span>
+          </td>
+          <td>{{ r.operation }}</td>
+          <td>{{ r.thisMeasurementType ?? '—' }}</td>
+          <td>{{ r.thisValue }} {{ r.thisUnit }}</td>
+          <td>{{ r.isError ? r.errorMessage : (r.resultValue + ' ' + (r.resultUnit ?? '')) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

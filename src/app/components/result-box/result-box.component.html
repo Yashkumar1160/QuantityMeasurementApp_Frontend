@@ -1,0 +1,6 @@
+<div *ngIf="visible"
+     class="result-box"
+     [ngClass]="isError ? 'result-error' : 'result-success'">
+  <div class="result-label">{{ label }}</div>
+  <div class="result-value">{{ message }}</div>
+</div>

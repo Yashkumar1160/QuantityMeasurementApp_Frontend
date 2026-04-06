@@ -1,0 +1,88 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <!-- Brand -->
+    <div class="auth-brand">
+      <h1>Quantity Measurement</h1>
+      <p>Compare, convert and calculate units</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="tab-btn" [class.active]="activeTab === 'login'"    (click)="switchTab('login')">Login</button>
+      <button class="tab-btn" [class.active]="activeTab === 'register'" (click)="switchTab('register')">Sign Up</button>
+    </div>
+
+    <!-- LOGIN PANEL -->
+    <div class="tab-panel" [class.active]="activeTab === 'login'">
+
+      <div *ngIf="loginAlert" class="alert alert-error">{{ loginAlert }}</div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" [(ngModel)]="loginEmail" placeholder="you@example.com"
+               [class.input-error]="loginEmailErr" (keydown.enter)="handleLogin()">
+        <span class="field-error" [class.show]="loginEmailErr">{{ loginEmailErr }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input [type]="showLoginPass ? 'text' : 'password'"
+                 [(ngModel)]="loginPassword" placeholder="Your password"
+                 [class.input-error]="loginPassErr" (keydown.enter)="handleLogin()">
+          <button class="eye-btn" type="button" (click)="toggleLoginPass()">
+            {{ showLoginPass ? '🙈' : '👁' }}
+          </button>
+        </div>
+        <span class="field-error" [class.show]="loginPassErr">{{ loginPassErr }}</span>
+      </div>
+
+      <button class="btn-primary" (click)="handleLogin()" [disabled]="loginLoading">
+        <span *ngIf="loginLoading" class="spinner"></span>
+        {{ loginLoading ? 'Logging in...' : 'Login' }}
+      </button>
+
+    </div>
+
+    <!-- REGISTER PANEL -->
+    <div class="tab-panel" [class.active]="activeTab === 'register'">
+
+      <div *ngIf="regAlert" class="alert alert-error">{{ regAlert }}</div>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" [(ngModel)]="regName" placeholder="Your Name"
+               [class.input-error]="regNameErr">
+        <span class="field-error" [class.show]="regNameErr">{{ regNameErr }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" [(ngModel)]="regEmail" placeholder="you@example.com"
+               [class.input-error]="regEmailErr">
+        <span class="field-error" [class.show]="regEmailErr">{{ regEmailErr }}</span>
+      </div>
+
+      <div class="form-group">
+        <label>Password (min 6 characters)</label>
+        <div class="pass-wrap">
+          <input [type]="showRegPass ? 'text' : 'password'"
+                 [(ngModel)]="regPassword" placeholder="Create a password"
+                 [class.input-error]="regPassErr" (keydown.enter)="handleRegister()">
+          <button class="eye-btn" type="button" (click)="toggleRegPass()">
+            {{ showRegPass ? '🙈' : '👁' }}
+          </button>
+        </div>
+        <span class="field-error" [class.show]="regPassErr">{{ regPassErr }}</span>
+      </div>
+
+      <button class="btn-primary" (click)="handleRegister()" [disabled]="regLoading">
+        <span *ngIf="regLoading" class="spinner"></span>
+        {{ regLoading ? 'Creating...' : 'Create Account' }}
+      </button>
+
+    </div>
+
+  </div>
+</div>

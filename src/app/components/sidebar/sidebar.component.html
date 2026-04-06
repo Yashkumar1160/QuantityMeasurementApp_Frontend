@@ -1,0 +1,34 @@
+<aside class="sidebar">
+
+  <div class="sidebar-label">Overview</div>
+  <button class="sidebar-btn" [class.active]="activeSection === 'home'" (click)="select('home')">
+    🏠 Home
+  </button>
+
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">Operations</div>
+
+  <button class="sidebar-btn" [class.active]="activeSection === 'compare'" (click)="select('compare')">
+    🔍 Compare
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'convert'" (click)="select('convert')">
+    🔄 Convert
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'add'" (click)="select('add')">
+    ➕ Add
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'subtract'" (click)="select('subtract')">
+    ➖ Subtract
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'divide'" (click)="select('divide')">
+    ➗ Divide
+  </button>
+
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">Records</div>
+
+  <button class="sidebar-btn" (click)="goHistory()">
+    📋 History
+  </button>
+
+</aside>

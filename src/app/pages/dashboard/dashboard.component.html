@@ -1,0 +1,310 @@
+<app-navbar></app-navbar>
+
+<div class="dash-layout">
+
+  <!-- Sidebar: emits (sectionChange) event to dashboard -->
+  <app-sidebar [activeSection]="activeSection" (sectionChange)="onSectionChange($event)">
+  </app-sidebar>
+
+  <main class="main-content">
+
+    <!-- ======== HOME ======== -->
+    <div *ngIf="activeSection === 'home'">
+      <div class="section-title">Welcome back 👋</div>
+      <div class="section-sub">Your operation totals</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total</div>
+          <div class="stat-value">{{ stats['total'] }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Compares</div>
+          <div class="stat-value">{{ stats['compare'] }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Converts</div>
+          <div class="stat-value">{{ stats['convert'] }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Adds</div>
+          <div class="stat-value">{{ stats['add'] }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Subtracts</div>
+          <div class="stat-value">{{ stats['subtract'] }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Divides</div>
+          <div class="stat-value">{{ stats['divide'] }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== COMPARE ======== -->
+    <div *ngIf="activeSection === 'compare'">
+      <div class="section-title">Compare Two Quantities</div>
+      <div class="section-sub">POST /api/v1/quantities/compare</div>
+
+      <div class="op-card">
+        <div class="op-card-title">Measurement Type & First Unit</div>
+        <!-- Reusable component: drives type + unit1 dropdowns together -->
+        <app-type-unit-select
+          typeLabel="Measurement Type" unitLabel="Unit 1"
+          [(selectedType)]="cmpType" [(selectedUnit)]="cmpUnit1"
+          [typeError]="cmpTypeErr"   [unitError]="cmpUnit1Err">
+        </app-type-unit-select>
+
+        <div class="form-row" style="margin-top: 12px;">
+          <div class="form-group">
+            <label>Value 1</label>
+            <input type="number" [(ngModel)]="cmpVal1" placeholder="e.g. 1"
+                   [class.input-error]="cmpVal1Err">
+            <span class="field-error" [class.show]="cmpVal1Err">{{ cmpVal1Err }}</span>
+          </div>
+          <div class="form-group">
+            <label>Value 2</label>
+            <input type="number" [(ngModel)]="cmpVal2" placeholder="e.g. 12"
+                   [class.input-error]="cmpVal2Err">
+            <span class="field-error" [class.show]="cmpVal2Err">{{ cmpVal2Err }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Unit 2</label>
+          <select [(ngModel)]="cmpUnit2" [disabled]="!cmpType" [class.input-error]="cmpUnit2Err">
+            <option value="">-- Select --</option>
+            <option *ngFor="let u of unitsFor(cmpType)" [value]="u">{{ u }}</option>
+          </select>
+          <span class="field-error" [class.show]="cmpUnit2Err">{{ cmpUnit2Err }}</span>
+        </div>
+      </div>
+
+      <button class="btn-action" (click)="handleCompare()" [disabled]="cmpLoading">
+        <span *ngIf="cmpLoading" class="spinner"></span>
+        {{ cmpLoading ? 'Comparing...' : 'Compare' }}
+      </button>
+
+      <app-result-box label="Result"
+        [message]="cmpResult" [isError]="cmpError" [visible]="cmpVisible">
+      </app-result-box>
+    </div>
+
+    <!-- ======== CONVERT ======== -->
+    <div *ngIf="activeSection === 'convert'">
+      <div class="section-title">Convert a Quantity</div>
+      <div class="section-sub">POST /api/v1/quantities/convert</div>
+
+      <div class="op-card">
+        <div class="form-group">
+          <label>Value</label>
+          <input type="number" [(ngModel)]="convVal" placeholder="e.g. 100"
+                 [class.input-error]="convValErr">
+          <span class="field-error" [class.show]="convValErr">{{ convValErr }}</span>
+        </div>
+
+        <div class="form-group">
+          <label>Measurement Type</label>
+          <select [ngModel]="convType" (ngModelChange)="onConvTypeChange($event)"
+                  [class.input-error]="convTypeErr">
+            <option value="">-- Select --</option>
+            <option value="Length">Length</option>
+            <option value="Weight">Weight</option>
+            <option value="Volume">Volume</option>
+            <option value="Temperature">Temperature</option>
+          </select>
+          <span class="field-error" [class.show]="convTypeErr">{{ convTypeErr }}</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>From Unit</label>
+            <select [(ngModel)]="convFrom" [disabled]="!convType" [class.input-error]="convFromErr">
+              <option value="">-- Select type first --</option>
+              <option *ngFor="let u of unitsFor(convType)" [value]="u">{{ u }}</option>
+            </select>
+            <span class="field-error" [class.show]="convFromErr">{{ convFromErr }}</span>
+          </div>
+          <div class="form-group">
+            <label>To Unit</label>
+            <select [(ngModel)]="convTo" [disabled]="!convType" [class.input-error]="convToErr">
+              <option value="">-- Select type first --</option>
+              <option *ngFor="let u of unitsFor(convType)" [value]="u">{{ u }}</option>
+            </select>
+            <span class="field-error" [class.show]="convToErr">{{ convToErr }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-action" (click)="handleConvert()" [disabled]="convLoading">
+        <span *ngIf="convLoading" class="spinner"></span>
+        {{ convLoading ? 'Converting...' : 'Convert' }}
+      </button>
+
+      <app-result-box label="Converted Value"
+        [message]="convResult" [isError]="convError" [visible]="convVisible">
+      </app-result-box>
+    </div>
+
+    <!-- ======== ADD ======== -->
+    <div *ngIf="activeSection === 'add'">
+      <div class="section-title">Add Two Quantities</div>
+      <div class="section-sub">POST /api/v1/quantities/add</div>
+
+      <div class="op-card">
+        <app-type-unit-select
+          typeLabel="Measurement Type" unitLabel="Unit 1"
+          [(selectedType)]="addType" [(selectedUnit)]="addUnit1"
+          [typeError]="addTypeErr"   [unitError]="addUnit1Err">
+        </app-type-unit-select>
+
+        <div class="form-row" style="margin-top: 12px;">
+          <div class="form-group">
+            <label>Value 1</label>
+            <input type="number" [(ngModel)]="addVal1" placeholder="e.g. 2"
+                   [class.input-error]="addVal1Err">
+            <span class="field-error" [class.show]="addVal1Err">{{ addVal1Err }}</span>
+          </div>
+          <div class="form-group">
+            <label>Value 2</label>
+            <input type="number" [(ngModel)]="addVal2" placeholder="e.g. 30"
+                   [class.input-error]="addVal2Err">
+            <span class="field-error" [class.show]="addVal2Err">{{ addVal2Err }}</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Unit 2</label>
+            <select [(ngModel)]="addUnit2" [disabled]="!addType" [class.input-error]="addUnit2Err">
+              <option value="">-- Select --</option>
+              <option *ngFor="let u of unitsFor(addType)" [value]="u">{{ u }}</option>
+            </select>
+            <span class="field-error" [class.show]="addUnit2Err">{{ addUnit2Err }}</span>
+          </div>
+          <div class="form-group">
+            <label>Result Unit</label>
+            <select [(ngModel)]="addTarget" [disabled]="!addType" [class.input-error]="addTargetErr">
+              <option value="">-- Select --</option>
+              <option *ngFor="let u of unitsFor(addType)" [value]="u">{{ u }}</option>
+            </select>
+            <span class="field-error" [class.show]="addTargetErr">{{ addTargetErr }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-action" (click)="handleAdd()" [disabled]="addLoading">
+        <span *ngIf="addLoading" class="spinner"></span>
+        {{ addLoading ? 'Adding...' : 'Add' }}
+      </button>
+
+      <app-result-box label="Sum"
+        [message]="addResult" [isError]="addError" [visible]="addVisible">
+      </app-result-box>
+    </div>
+
+    <!-- ======== SUBTRACT ======== -->
+    <div *ngIf="activeSection === 'subtract'">
+      <div class="section-title">Subtract Two Quantities</div>
+      <div class="section-sub">POST /api/v1/quantities/subtract</div>
+
+      <div class="op-card">
+        <app-type-unit-select
+          typeLabel="Measurement Type" unitLabel="Unit 1"
+          [(selectedType)]="subType" [(selectedUnit)]="subUnit1"
+          [typeError]="subTypeErr"   [unitError]="subUnit1Err">
+        </app-type-unit-select>
+
+        <div class="form-row" style="margin-top: 12px;">
+          <div class="form-group">
+            <label>Value 1</label>
+            <input type="number" [(ngModel)]="subVal1" placeholder="e.g. 10"
+                   [class.input-error]="subVal1Err">
+            <span class="field-error" [class.show]="subVal1Err">{{ subVal1Err }}</span>
+          </div>
+          <div class="form-group">
+            <label>Value 2</label>
+            <input type="number" [(ngModel)]="subVal2" placeholder="e.g. 3"
+                   [class.input-error]="subVal2Err">
+            <span class="field-error" [class.show]="subVal2Err">{{ subVal2Err }}</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Unit 2</label>
+            <select [(ngModel)]="subUnit2" [disabled]="!subType" [class.input-error]="subUnit2Err">
+              <option value="">-- Select --</option>
+              <option *ngFor="let u of unitsFor(subType)" [value]="u">{{ u }}</option>
+            </select>
+            <span class="field-error" [class.show]="subUnit2Err">{{ subUnit2Err }}</span>
+          </div>
+          <div class="form-group">
+            <label>Result Unit</label>
+            <select [(ngModel)]="subTarget" [disabled]="!subType" [class.input-error]="subTargetErr">
+              <option value="">-- Select --</option>
+              <option *ngFor="let u of unitsFor(subType)" [value]="u">{{ u }}</option>
+            </select>
+            <span class="field-error" [class.show]="subTargetErr">{{ subTargetErr }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-action" (click)="handleSubtract()" [disabled]="subLoading">
+        <span *ngIf="subLoading" class="spinner"></span>
+        {{ subLoading ? 'Subtracting...' : 'Subtract' }}
+      </button>
+
+      <app-result-box label="Difference"
+        [message]="subResult" [isError]="subError" [visible]="subVisible">
+      </app-result-box>
+    </div>
+
+    <!-- ======== DIVIDE ======== -->
+    <div *ngIf="activeSection === 'divide'">
+      <div class="section-title">Divide Two Quantities</div>
+      <div class="section-sub">POST /api/v1/quantities/divide</div>
+
+      <div class="op-card">
+        <app-type-unit-select
+          typeLabel="Measurement Type" unitLabel="Unit 1"
+          [(selectedType)]="divType" [(selectedUnit)]="divUnit1"
+          [typeError]="divTypeErr"   [unitError]="divUnit1Err">
+        </app-type-unit-select>
+
+        <div class="form-row" style="margin-top: 12px;">
+          <div class="form-group">
+            <label>Value 1 (Dividend)</label>
+            <input type="number" [(ngModel)]="divVal1" placeholder="e.g. 12"
+                   [class.input-error]="divVal1Err">
+            <span class="field-error" [class.show]="divVal1Err">{{ divVal1Err }}</span>
+          </div>
+          <div class="form-group">
+            <label>Value 2 (Divisor)</label>
+            <input type="number" [(ngModel)]="divVal2" placeholder="e.g. 3"
+                   [class.input-error]="divVal2Err">
+            <span class="field-error" [class.show]="divVal2Err">{{ divVal2Err }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Unit 2</label>
+          <select [(ngModel)]="divUnit2" [disabled]="!divType" [class.input-error]="divUnit2Err">
+            <option value="">-- Select --</option>
+            <option *ngFor="let u of unitsFor(divType)" [value]="u">{{ u }}</option>
+          </select>
+          <span class="field-error" [class.show]="divUnit2Err">{{ divUnit2Err }}</span>
+        </div>
+      </div>
+
+      <button class="btn-action" (click)="handleDivide()" [disabled]="divLoading">
+        <span *ngIf="divLoading" class="spinner"></span>
+        {{ divLoading ? 'Dividing...' : 'Divide' }}
+      </button>
+
+      <app-result-box label="Ratio"
+        [message]="divResult" [isError]="divError" [visible]="divVisible">
+      </app-result-box>
+    </div>
+
+  </main>
+</div>
