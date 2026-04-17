@@ -1,0 +1,76 @@
+/* ---- Type-Unit Select — Premium styling ---- */
+/* Overrides the global form-group styles inside this component */
+
+:host .form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+:host .form-group {
+  flex: 1;
+  min-width: 140px;
+  margin-bottom: 0;
+}
+
+:host label {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 7px;
+}
+
+:host select {
+  width: 100%;
+  padding: 11px 36px 11px 14px;
+  border: 1.5px solid #E9ECEF;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  color: #212529;
+  background-color: #F8F9FA;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236C757D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background-color 0.18s;
+  cursor: pointer;
+}
+
+:host select:focus {
+  border-color: #C0392B;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.10);
+  background-color: #fff;
+}
+
+:host select:hover {
+  border-color: #ADB5BD;
+  background-color: #fff;
+}
+
+:host select:disabled {
+  background-color: #F1F3F5;
+  color: #ADB5BD;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+:host select.input-error {
+  border-color: #C0392B !important;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.08);
+}
+
+:host .field-error {
+  font-size: 11px;
+  color: #C0392B;
+  margin-top: 4px;
+  display: none;
+}
+
+:host .field-error.show {
+  display: block;
+}

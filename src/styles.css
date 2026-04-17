@@ -1,1 +1,456 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Premium Dark Theme Palette */
+  --bg-main: #020617;        /* Slate 950 */
+  --bg-card: rgba(30, 41, 59, 0.5); /* Slate 800 with transparency */
+  --bg-sidebar: #0f172a;     /* Slate 900 */
+  
+  --accent-primary: #8b5cf6;  /* Violet 500 */
+  --accent-secondary: #ec4899; /* Pink 500 */
+  --accent-teal: #14b8a6;    /* Teal 500 */
+  
+  --text-primary: #f8fafc;   /* Slate 50 */
+  --text-secondary: #94a3b8; /* Slate 400 */
+  --text-muted: #64748b;    /* Slate 500 */
+  
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(15, 23, 42, 0.65);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  --font-main: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+  
+  --grad-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Sidebar */
+.dash-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.sidebar-btn.active {
+  background: var(--grad-primary);
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 3rem;
+  background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.05), transparent 40%),
+              radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.05), transparent 40%);
+}
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #fff, var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.section-sub {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Stats Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-primary);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Navbar */
+.navbar {
+  height: 70px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Common Components */
+.pf-btn {
+  background: var(--grad-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pf-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+}
+
+.pf-input, .pf-select {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  width: 100%;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.pf-input:focus, .pf-select:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.hero-icon {
+  animation: float 4s ease-in-out infinite;
+  font-size: 4rem;
+  flex-shrink: 0;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fadeIn 0.5s ease both; }
+
+/* ─── Hero Section ─── */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+
+.hero-content { flex: 1; }
+
+/* ─── Sidebar divider ─── */
+.sidebar-divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 1.25rem 0;
+}
+
+/* ─── Spacing helpers ─── */
+.mt-large { margin-top: 2rem; }
+
+/* ─── Mono ─── */
+.mono { font-family: var(--font-mono); }
+
+/* ─── Form helpers ─── */
+.pf-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.pf-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.pf-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.pf-col { flex: 1; min-width: 160px; }
+
+/* ─── Hero button variant ─── */
+.pf-btn-hero {
+  background: var(--grad-primary);
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.3);
+  white-space: nowrap; /* Prevent text wrapping */
+  min-height: 56px;     /* Ensure enough height for text */
+}
+
+.pf-btn-hero:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+}
+
+.pf-btn-hero:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Password wrap ─── */
+.input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, 0.4);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-wrap:focus-within {
+  border-color: var(--accent-primary);
+}
+
+.input-wrap .pf-input {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.input-wrap .pf-input:focus {
+  background: transparent;
+}
+
+/* ─── Empty state ─── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 5rem 2rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state .empty-icon { font-size: 3.5rem; }
+
+/* ─── Spinner ─── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─── pf-input error state ─── */
+.pf-input.error, .pf-select.error {
+  border-color: #f87171;
+}
+
+/* ─── pf-select / dropdown improvements ─── */
+.pf-select, .pf-select-tiny {
+  background-color: #1e293b !important; /* Force solid background */
+  border: 1px solid var(--glass-border);
+  color: #ffffff !important;           /* Force white text */
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+  transition: all 0.2s ease;
+}
+
+.pf-select-tiny {
+  padding: 0.4rem 2.2rem 0.4rem 0.75rem; /* Specific padding for tiny */
+  font-size: 0.85rem;
+  width: auto;
+  min-width: 120px;
+}
+
+.pf-select:focus, .pf-select-tiny:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+}
+
+.pf-select option, .pf-select-tiny option {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  padding: 12px;
+}
+
+/* ─── Table Styles (Admin/History) ─── */
+.pf-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pf-table th {
+  text-align: left;
+  padding: 1rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.pf-table td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
+}
+
+.pf-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.date-cell {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+

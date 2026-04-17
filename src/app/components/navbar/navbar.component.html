@@ -1,0 +1,29 @@
+<nav class="navbar glass">
+  <div class="navbar-brand">
+    <span class="brand-accent">QUANTUM</span>
+    <span class="brand-main">Engine</span>
+  </div>
+  
+  <div class="navbar-right">
+    <ng-container *ngIf="isLoggedIn(); else guestMode">
+      <div class="user-profile">
+        <div class="user-info">
+          <span class="user-name">{{ userName }}</span>
+          <span class="user-role" [class.admin]="isAdmin">{{ userRole }}</span>
+        </div>
+        <div class="avatar">
+          {{ userName?.charAt(0) || 'U' }}
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button *ngIf="isAdmin" class="btn-primary-glow" (click)="goAdmin()">Admin Panel</button>
+        <button class="pf-btn pf-btn-outline" (click)="logout()">Logout</button>
+      </div>
+    </ng-container>
+
+    <ng-template #guestMode>
+      <button class="pf-btn pf-btn-hero pf-btn-tiny" (click)="login()">Login / Sign Up</button>
+    </ng-template>
+  </div>
+</nav>

@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+
+<div class="dash-layout">
+  <app-sidebar [activeSection]="activeSection" (sectionChange)="onSectionChange($event)"></app-sidebar>
+
+  <main class="main-content fade-in">
+    
+    <div class="hero-section">
+      <div class="hero-content">
+        <h1 class="section-title">Operation Registry</h1>
+        <p class="section-sub">A comprehensive ledger of all your measurements and calculations.</p>
+      </div>
+      <div class="hero-icon">📋</div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-panel glass">
+      <div class="pf-row no-margin">
+        <div class="pf-col">
+          <label class="pf-label">Filter Category</label>
+          <select [(ngModel)]="filterBy" (ngModelChange)="onFilterByChange()" class="pf-select full-width">
+            <option value="all">Global (All Records)</option>
+            <option value="operation">By Operation</option>
+            <option value="type">By Measurement Type</option>
+            <option value="errored">System Errors Only</option>
+          </select>
+        </div>
+
+        <div class="pf-col" *ngIf="filterBy === 'operation' || filterBy === 'type'">
+          <label class="pf-label">Selection</label>
+          <select [(ngModel)]="filterVal" class="pf-select full-width">
+            <option *ngFor="let o of filterBy === 'operation' ? operationOptions : typeOptions"
+                    [value]="o">{{ o }}</option>
+          </select>
+        </div>
+
+        <button class="pf-btn pf-btn-hero pf-btn-small" (click)="loadHistory()" [disabled]="loading">
+          {{ loading ? '...' : 'Sync Data' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="registry-container glass mt-large">
+      <div class="table-overlay" *ngIf="loading">
+        <span class="spinner"></span>
+        <p>Retrieving registry data...</p>
+      </div>
+
+      <div class="empty-state" *ngIf="!loading && rows.length === 0">
+        <div class="empty-icon">📭</div>
+        <p>No records found in the registry.</p>
+      </div>
+
+      <table class="pf-table" *ngIf="!loading && rows.length > 0">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Type</th>
+            <th>Operation</th>
+            <th>Inputs</th>
+            <th>Result</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of rows" [class.row-error]="r.isError">
+            <td class="date-cell">{{ r.createdAt | date:'MMM dd, HH:mm' }}</td>
+            <td><span class="type-tag">{{ measureType(r) }}</span></td>
+            <td><span class="op-tag">{{ r.operation }}</span></td>
+            <td>
+              <div class="val-stack">
+                <span class="val-box">{{ input1(r) }}</span>
+                <span class="val-sep" *ngIf="input2(r) !== '—'">↔️</span>
+                <span class="val-box" *ngIf="input2(r) !== '—'">{{ input2(r) }}</span>
+              </div>
+            </td>
+            <td class="result-cell mono">{{ result(r) }}</td>
+            <td>
+              <span class="status-dot" [class.error]="r.isError"></span>
+              {{ r.isError ? 'Failed' : 'Executed' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>

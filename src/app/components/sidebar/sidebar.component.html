@@ -1,0 +1,46 @@
+<aside class="sidebar">
+
+  <div class="sidebar-label">Overview</div>
+  <button class="sidebar-btn" [class.active]="activeSection === 'home'" (click)="select('home')">
+    <span class="icon">🏠</span> 
+    <span class="label">Dashboard</span>
+  </button>
+
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">Measurement Engine</div>
+
+  <button class="sidebar-btn" [class.active]="activeSection === 'compare'" (click)="select('compare')">
+    <span class="icon">🔍</span>
+    <span class="label">Compare</span>
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'convert'" (click)="select('convert')">
+    <span class="icon">🔄</span>
+    <span class="label">Convert</span>
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'add'" (click)="select('add')">
+    <span class="icon">➕</span>
+    <span class="label">Add</span>
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'subtract'" (click)="select('subtract')">
+    <span class="icon">➖</span>
+    <span class="label">Subtract</span>
+  </button>
+  <button class="sidebar-btn" [class.active]="activeSection === 'divide'" (click)="select('divide')">
+    <span class="icon">➗</span>
+    <span class="label">Divide</span>
+  </button>
+
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">System</div>
+
+  <button class="sidebar-btn" [class.active]="activeSection === 'history'" (click)="goHistory()">
+    <span class="icon">📋</span>
+    <span class="label">History</span>
+  </button>
+
+  <button *ngIf="isAdmin" class="sidebar-btn" [class.active]="activeSection === 'admin'" (click)="goAdmin()">
+    <span class="icon">🛡️</span>
+    <span class="label">Admin Panel</span>
+  </button>
+
+</aside>

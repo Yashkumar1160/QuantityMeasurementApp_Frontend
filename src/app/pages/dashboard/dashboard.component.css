@@ -1,0 +1,237 @@
+.fade-in {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--grad-primary);
+  padding: 3rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 100%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+  transform: rotate(-15deg);
+}
+
+.hero-icon {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.3));
+}
+
+/* Engine Container */
+.engine-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.engine-section {
+  margin-bottom: 3rem;
+}
+
+.engine-label {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* Type Selection Grid */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  border-radius: var(--radius-lg);
+}
+
+.type-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-primary);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.type-card.active {
+  background: var(--grad-primary);
+  border-color: white;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+}
+
+.type-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.type-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Operation Chips */
+.op-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.op-chip {
+  padding: 10px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.op-chip:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-secondary);
+}
+
+.op-chip.active {
+  background: var(--accent-teal);
+  border-color: var(--accent-teal);
+  color: #020617;
+  box-shadow: 0 0 15px rgba(20, 184, 166, 0.4);
+}
+
+/* Operation Form */
+.form-glass {
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  margin-top: 2rem;
+}
+
+.form-header {
+  margin-bottom: 2rem;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.form-desc {
+  color: var(--text-muted);
+}
+
+.pf-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pf-col {
+  flex: 1;
+}
+
+.input-wrap {
+  display: flex;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.pf-input {
+  border: none;
+  background: transparent;
+  padding: 0.875rem 1rem;
+}
+
+.pf-select-tiny {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  border-left: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.op-indicator {
+  font-size: 2rem;
+  padding-bottom: 10px;
+  color: var(--text-muted);
+}
+
+.pf-btn-hero {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  width: 100%;
+}
+
+.mt-large {
+  margin-top: 2rem;
+}
+
+/* Result Display */
+.result-display {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  text-align: center;
+  animation: resultIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-display.error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+@keyframes resultIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.result-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-teal);
+  margin-bottom: 0.5rem;
+}
+
+.result-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}

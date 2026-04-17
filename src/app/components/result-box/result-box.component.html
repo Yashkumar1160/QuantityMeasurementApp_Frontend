@@ -1,0 +1,9 @@
+<div *ngIf="visible"
+     class="result-panel glass"
+     [ngClass]="isError ? 'error' : 'success'">
+  <div class="result-icon">{{ isError ? '❌' : '✨' }}</div>
+  <div class="result-content">
+    <div class="result-label">{{ label }}</div>
+    <div class="result-message">{{ message }}</div>
+  </div>
+</div>

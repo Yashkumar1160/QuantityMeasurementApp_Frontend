@@ -1,0 +1,142 @@
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Filter Panel */
+.filter-panel {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: var(--radius-md);
+}
+
+.no-margin {
+  margin-bottom: 0 !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.pf-btn-small {
+  padding: 0.5rem 1.5rem !important;
+  width: auto !important;
+}
+
+/* Registry Table */
+.registry-container {
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius-lg);
+  min-height: 400px;
+}
+
+.table-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--text-primary);
+}
+
+.pf-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.pf-table th {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem 1.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.pf-table td {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.pf-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Cell Elements */
+.date-cell {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.type-tag {
+  background: rgba(20, 184, 166, 0.1);
+  color: var(--accent-teal);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.op-tag {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--accent-primary);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.val-stack {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.val-box {
+  background: rgba(15, 23, 42, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--glass-border);
+}
+
+.val-sep {
+  opacity: 0.3;
+}
+
+.result-cell {
+  font-weight: 700;
+  color: #fff;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-teal);
+  margin-right: 6px;
+  box-shadow: 0 0 8px var(--accent-teal);
+}
+
+.status-dot.error {
+  background: #f87171;
+  box-shadow: 0 0 8px #f87171;
+}
+
+.row-error td {
+  color: #fca5a5;
+}
+
+.row-error .result-cell {
+  color: #ef4444;
+}

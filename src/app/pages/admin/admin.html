@@ -1,0 +1,113 @@
+<app-navbar></app-navbar>
+
+<div class="dash-layout">
+  <app-sidebar [activeSection]="activeSection" (sectionChange)="onSectionChange($event)"></app-sidebar>
+
+  <main class="main-content fade-in">
+    <div class="admin-container">
+      
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="section-title">Control Center</h1>
+          <p class="section-sub">System-wide surveillance and infrastructure management.</p>
+        </div>
+        <div class="hero-icon">🛡️</div>
+      </div>
+
+      <!-- Admin Tabs -->
+      <div class="admin-tabs glass">
+        <button class="tab-btn" [class.active]="activeTab === 'users'" (click)="showTab('users')">
+          <span class="tab-icon">👥</span> Users Registry
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'records'" (click)="showTab('records')">
+          <span class="tab-icon">📊</span> Global Operations
+        </button>
+      </div>
+
+      <!-- USERS TAB -->
+      <div *ngIf="activeTab === 'users'" class="tab-panel fade-in">
+        <div class="registry-container glass mt-large">
+          <div class="table-overlay" *ngIf="loadingUsers">
+            <span class="spinner"></span>
+            <p>Syncing identities...</p>
+          </div>
+
+          <table class="pf-table" *ngIf="!loadingUsers && users.length > 0">
+            <thead>
+              <tr>
+                <th>Profile</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Last Activity</th>
+                <th>Privileges</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of users">
+                <td>
+                  <div class="user-cell">
+                    <div class="user-avatar">{{ u.name.charAt(0) }}</div>
+                    <div class="user-meta">
+                      <span class="user-name">{{ u.name }}</span>
+                      <span class="user-email">{{ u.email }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="status-dot"></span> Active
+                </td>
+                <td class="date-cell">{{ u.createdAt | date:'MMM dd, yyyy' }}</td>
+                <td class="date-cell">{{ u.lastLoginAt | date:'MMM dd, HH:mm' }}</td>
+                <td>
+                  <button *ngIf="u.role !== 'Admin'" class="pf-btn pf-btn-hero pf-btn-tiny" (click)="promoteUser(u.id, u.name)">
+                    Elevate to Admin
+                  </button>
+                  <span *ngIf="u.role === 'Admin'" class="admin-badge">✓ FULL ACCESS</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RECORDS TAB -->
+      <div *ngIf="activeTab === 'records'" class="tab-panel fade-in">
+        <div class="registry-container glass mt-large">
+          <div class="table-overlay" *ngIf="loadingRecords">
+            <span class="spinner"></span>
+            <p>Retrieving global registry...</p>
+          </div>
+
+          <table class="pf-table" *ngIf="!loadingRecords && records.length > 0">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Operation</th>
+                <th>Details</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let r of records" [class.row-error]="r.isError">
+                <td class="date-cell">{{ r.createdAt | date:'MMM dd, HH:mm' }}</td>
+                <td><span class="op-tag">{{ r.operation }}</span></td>
+                <td>
+                  <div class="rec-details">
+                    <span class="dim">{{ r.thisValue }} {{ r.thisUnit }}</span>
+                    <span class="arrow">→</span>
+                    <span class="bold">{{ r.isError ? 'ERR' : (r.resultValue + ' ' + (r.resultUnit ?? '')) }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="status-dot" [class.error]="r.isError"></span>
+                  {{ r.isError ? 'Errored' : 'Success' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>

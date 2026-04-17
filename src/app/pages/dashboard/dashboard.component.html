@@ -1,0 +1,154 @@
+<app-navbar></app-navbar>
+
+<div class="dash-layout">
+  <app-sidebar [activeSection]="activeSection" (sectionChange)="onSectionChange($event)"></app-sidebar>
+
+  <main class="main-content">
+    
+    <!-- ======== HOME / OVERVIEW ======== -->
+    <div *ngIf="activeSection === 'home'" class="fade-in">
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="section-title">Precision at your fingertips</h1>
+          <p class="section-sub">Welcome to the future of quantity measurement. Select a category to begin.</p>
+        </div>
+        <div class="hero-icon">⚡</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card glass" *ngFor="let s of [
+          { label: 'Total Operations', key: 'total' },
+          { label: 'Compares', key: 'compare' },
+          { label: 'Converts', key: 'convert' },
+          { label: 'Additions', key: 'add' },
+          { label: 'Subtractions', key: 'subtract' },
+          { label: 'Divisions', key: 'divide' }
+        ]">
+          <div class="stat-label">{{ s.label }}</div>
+          <div class="stat-value">{{ stats[s.key] || 0 }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== MEASUREMENT ENGINE (Unified for all ops) ======== -->
+    <div *ngIf="activeSection !== 'home'" class="engine-container fade-in">
+      
+      <!-- 1. Category Selection -->
+      <div class="engine-section">
+        <h3 class="engine-label">1. Choose Category</h3>
+        <div class="type-grid">
+          <div class="type-card glass" 
+               [class.active]="selectedType === t"
+               *ngFor="let t of measurementTypes"
+               (click)="selectType(t)">
+            <div class="type-icon">{{ getTypeIcon(t) }}</div>
+            <div class="type-name">{{ t }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Operation Selection -->
+      <div class="engine-section" *ngIf="selectedType">
+        <h3 class="engine-label">2. Select Operation</h3>
+        <div class="op-chips">
+          <button class="op-chip" 
+                  [class.active]="activeSection === 'compare'"
+                  (click)="onSectionChange('compare')">🔍 Compare</button>
+          <button class="op-chip" 
+                  [class.active]="activeSection === 'convert'"
+                  (click)="onSectionChange('convert')">🔄 Convert</button>
+          <button class="op-chip" 
+                  [class.active]="activeSection === 'add'"
+                  (click)="onSectionChange('add')">➕ Add</button>
+          <button class="op-chip" 
+                  [class.active]="activeSection === 'subtract'"
+                  (click)="onSectionChange('subtract')">➖ Subtract</button>
+          <button class="op-chip" 
+                  [class.active]="activeSection === 'divide'"
+                  (click)="onSectionChange('divide')">➗ Divide</button>
+        </div>
+      </div>
+
+      <!-- 3. Operation Form -->
+      <div class="engine-section" *ngIf="selectedType && activeSection !== 'home'">
+        <div class="form-glass glass">
+          <div class="form-header">
+            <h2 class="form-title">{{ getOpTitle() }}</h2>
+            <p class="form-desc">{{ getOpDesc() }}</p>
+          </div>
+
+          <div class="form-body">
+            <!-- Dynamic Form based on operation -->
+            
+            <!-- Compare / Add / Subtract / Divide Layout (Two side-by-side inputs) -->
+            <div class="pf-row" *ngIf="activeSection !== 'convert'">
+              <div class="pf-col">
+                <label class="pf-label">Value 1</label>
+                <div class="input-wrap">
+                  <input type="number" [(ngModel)]="val1" class="pf-input" placeholder="0.00">
+                  <select [(ngModel)]="unit1" class="pf-select-tiny">
+                    <option *ngFor="let u of unitsFor(selectedType)" [value]="u">{{ u }}</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="op-indicator">{{ getOpEmoji() }}</div>
+
+              <div class="pf-col">
+                <label class="pf-label">Value 2</label>
+                <div class="input-wrap">
+                  <input type="number" [(ngModel)]="val2" class="pf-input" placeholder="0.00">
+                  <select [(ngModel)]="unit2" class="pf-select-tiny">
+                    <option *ngFor="let u of unitsFor(selectedType)" [value]="u">{{ u }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Convert Layout -->
+            <div class="pf-row" *ngIf="activeSection === 'convert'">
+              <div class="pf-col">
+                <label class="pf-label">Input Value</label>
+                <div class="input-wrap">
+                  <input type="number" [(ngModel)]="val1" class="pf-input" placeholder="0.00">
+                  <select [(ngModel)]="unit1" class="pf-select-tiny">
+                    <option *ngFor="let u of unitsFor(selectedType)" [value]="u">{{ u }}</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="op-indicator">➡️</div>
+
+              <div class="pf-col">
+                <label class="pf-label">Target Unit</label>
+                <select [(ngModel)]="unit2" class="pf-select">
+                  <option *ngFor="let u of unitsFor(selectedType)" [value]="u">{{ u }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Target Unit Selection for Add/Sub/Div -->
+            <div class="pf-group mt-large" *ngIf="['add','subtract','divide'].includes(activeSection)">
+              <label class="pf-label">Result Unit</label>
+              <select [(ngModel)]="targetUnit" class="pf-select">
+                <option *ngFor="let u of unitsFor(selectedType)" [value]="u">{{ u }}</option>
+              </select>
+            </div>
+
+            <button class="pf-btn pf-btn-hero mt-large" (click)="executeEngineOp()" [disabled]="isLoading">
+              <span *ngIf="isLoading" class="spinner"></span>
+              {{ isLoading ? 'Processing...' : 'Execute Operation' }}
+            </button>
+          </div>
+
+          <div class="form-footer" *ngIf="resultVisible">
+            <div class="result-display" [class.error]="isError">
+              <div class="result-label">Result Output</div>
+              <div class="result-value">{{ resultMessage }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
