@@ -41,7 +41,8 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
+    return !!token && token !== 'null' && token !== 'undefined' && token.length > 5;
   }
 
   getToken(): string {
