@@ -1,10 +1,12 @@
 <aside class="sidebar">
 
-  <div class="sidebar-label">Overview</div>
-  <button class="sidebar-btn" [class.active]="activeSection === 'home'" (click)="select('home')">
-    <span class="icon">🏠</span> 
-    <span class="label">Dashboard</span>
-  </button>
+  <ng-container *ngIf="isLoggedIn()">
+    <div class="sidebar-label">Overview</div>
+    <button class="sidebar-btn" [class.active]="activeSection === 'home'" (click)="select('home')">
+      <span class="icon">🏠</span> 
+      <span class="label">Dashboard</span>
+    </button>
+  </ng-container>
 
   <div class="sidebar-divider"></div>
   <div class="sidebar-label">Measurement Engine</div>
@@ -30,17 +32,19 @@
     <span class="label">Divide</span>
   </button>
 
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-label">System</div>
+  <ng-container *ngIf="isLoggedIn()">
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label">System</div>
 
-  <button class="sidebar-btn" [class.active]="activeSection === 'history'" (click)="goHistory()">
-    <span class="icon">📋</span>
-    <span class="label">History</span>
-  </button>
+    <button class="sidebar-btn" [class.active]="activeSection === 'history'" (click)="goHistory()">
+      <span class="icon">📋</span>
+      <span class="label">History</span>
+    </button>
 
-  <button *ngIf="isAdmin" class="sidebar-btn" [class.active]="activeSection === 'admin'" (click)="goAdmin()">
-    <span class="icon">🛡️</span>
-    <span class="label">Admin Panel</span>
-  </button>
+    <button *ngIf="isAdmin" class="sidebar-btn" [class.active]="activeSection === 'admin'" (click)="goAdmin()">
+      <span class="icon">🛡️</span>
+      <span class="label">Admin Panel</span>
+    </button>
+  </ng-container>
 
 </aside>

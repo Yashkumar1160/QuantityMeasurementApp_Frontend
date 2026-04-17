@@ -57,14 +57,26 @@ export class DashboardComponent implements OnInit {
       const section = params['section'];
       if (section) {
         this.activeSection = section;
-        this.resetForm();
+      } else if (!this.isLoggedIn() && this.activeSection === 'home') {
+        // GUEST MODE: Default to compare instead of home
+        this.activeSection = 'compare';
       }
+      this.resetForm();
     });
 
-    // 2. Load stats if logged in
-    if (this.auth.isLoggedIn()) {
+    // 2. Force tool view for guests if no section was specified
+    if (!this.isLoggedIn() && this.activeSection === 'home') {
+      this.activeSection = 'compare';
+    }
+
+    // 3. Load stats if logged in
+    if (this.isLoggedIn()) {
       this.loadStats();
     }
+  }
+
+  isLoggedIn(): boolean {
+    return this.auth.isLoggedIn();
   }
 
   onSectionChange(section: string): void {

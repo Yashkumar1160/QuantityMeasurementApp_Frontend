@@ -6,7 +6,7 @@
   <main class="main-content">
     
     <!-- ======== HOME / OVERVIEW ======== -->
-    <div *ngIf="activeSection === 'home'" class="fade-in">
+    <div *ngIf="activeSection === 'home' && isLoggedIn()" class="fade-in">
       <div class="hero-section">
         <div class="hero-content">
           <h1 class="section-title">Precision at your fingertips</h1>
