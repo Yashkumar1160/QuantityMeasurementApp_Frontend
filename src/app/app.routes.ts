@@ -17,7 +17,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./pages/history/history.component').then(m => m.HistoryComponent),
   },
-  // NEW: Admin page — only accessible if role is Admin
+  // Admin page — only accessible if role is Admin
   {
     path: 'admin',
     canActivate: [adminGuard],

@@ -31,8 +31,8 @@ export class AuthService {
     sessionStorage.setItem('token',     data.token);
     sessionStorage.setItem('userName',  data.name);
     sessionStorage.setItem('userEmail', data.email);
-    sessionStorage.setItem('userId',    data.userId.toString());   // NEW
-    sessionStorage.setItem('userRole',  data.role);                // NEW
+    sessionStorage.setItem('userId',    data.userId.toString());   
+    sessionStorage.setItem('userRole',  data.role);                
   }
 
   logout(): void {

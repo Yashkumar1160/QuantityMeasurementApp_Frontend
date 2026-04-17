@@ -7,8 +7,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   let token  = sessionStorage.getItem('token');
 
-  // Defensive: If the token accidentally got saved with literal quotes (e.g. from a manual Swagger copy-paste)
-  // Strip them off, because literal quotes break Base64Url decoding and throw IDX14102 in C#.
+  // If the token accidentally got saved with literal quotes
   if (token && token.startsWith('"') && token.endsWith('"')) {
     token = token.slice(1, -1);
     console.warn('[Interceptor] Stripped literal quotes from token.');
@@ -21,7 +20,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     catchError((err: HttpErrorResponse) => {
       // Only redirect to login if the auth token itself is rejected (401 on auth endpoints)
-      // Admin/data API 401s or 403s should show an error in the component, not log out
       const isAdminOrDataRequest = req.url.includes('/admin/') ||
                                    req.url.includes('/history/') ||
                                    req.url.includes('/quantities/');
