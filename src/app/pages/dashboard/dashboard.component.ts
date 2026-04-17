@@ -24,7 +24,7 @@ import { MEASUREMENT_TYPES } from '../../models/quantity.models';
 })
 export class DashboardComponent implements OnInit {
 
-  activeSection = 'home';
+  activeSection = 'compare';
   measurementTypes = MEASUREMENT_TYPES;
 
   // ---- HOME STATS ----
